@@ -1,66 +1,27 @@
-module CheckVictory
-  def check_victory_lines(board)
-    winner = { 'x': false, 'o': false, '-': false }
-    current_board = board.flatten
-    current_board.each_with_index do |spot, index|
-      break if winner['x'] || winner['o']
+require_relative 'game'
+winner_found = false
+until winner_found != false
+  puts(Game.board_layout.map { |row| row.join(' ') })
 
-      if [0, 3, 6].include?(index)
-        if current_board[index] == spot && current_board[index + 1] == spot && current_board[index + 2] == spot
-          winner[spot] = true
-        end
-      elsif index in [0, 1, 2]
-        if current_board[index] == spot && current_board[index + 3] == spot && current_board[index + 6] == spot
-          winner[spot] = true
-        end
-      end
-    end
-    if winner['x']
-      'x'
-    elsif winner['o']
-      'o'
-    else
-      false
-    end
+  x_choice = [0, 1]
+  o_choice = nil
+  loop do
+    print 'Where will X play: '
+    x_choice = gets.chomp.split('').map(&:to_i)
+    break if (x_choice.length == 2) && (x_choice[0].to_i in (0..2)) && (x_choice[1].to_i in (0..2))
   end
+  Game.new(x_choice[0].to_i, x_choice[1].to_i, 'x')
+  winner_found = Game.find_winner(Game.board_layout)
+  puts(Game.board_layout.map { |row| row.join(' ') })
 
-  def check_victory_cross(board)
-    winner = { 'x': false, 'o': false, '-': false }
-    current_board = board.flatten
-    current_board.each_with_index do |spot, index|
-      break if winner['x'] || winner['o']
-
-      if index.zero?
-        if current_board[index] == spot && current_board[index + 4] == spot && current_board[index + 8] == spot
-          winner[spot] = true
-        end
-      elsif index == 2
-        if current_board[index] == spot && current_board[index + 2] == spot && current_board[index + 4] == spot
-          winner[spot] = true
-        end
-      end
-    end
-
-    if winner['x']
-      'x'
-    elsif winner['o']
-      'o'
-    else
-      false
-    end
+  loop do
+    print 'Where will O play: '
+    o_choice = gets.chomp.split('').map(&:to_i)
+    break if (o_choice.length == 2) && (o_choice[0].to_i in (0..2)) && (o_choice[1].to_i in (0..2))
   end
-
-  def check_victory(board)
-    winner_lines = check_victory_lines(board)
-    winner_cross = check_victory_cross(board)
-    return false unless winner_lines || winner_cross
-
-    if winner_lines == 'x' || winner_cross == 'x'
-      'x'
-    elsif winner_lines == 'o' || winner_cross == 'o'
-      'o'
-    else
-      false
-    end
-  end
+  Game.new(o_choice[0].to_i, o_choice[1].to_i, 'o')
+  winner_found = Game.find_winner(Game.board_layout)
+  puts(Game.board_layout.map { |row| row.join(' ') })
 end
+
+puts "#{winner_found} won the game!!!"
