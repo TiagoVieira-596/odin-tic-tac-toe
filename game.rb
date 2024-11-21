@@ -18,9 +18,8 @@ class Game
   end
 
   def self.winner(board)
-    if @@plays < 3
-      false
-    end
+    return false if @@plays < 3
+
     CheckVictory.find_winner(board)
   end
 end

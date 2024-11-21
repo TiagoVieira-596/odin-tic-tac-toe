@@ -4,12 +4,14 @@ module CheckVictory
     current_board = board.flatten
 
     [0, 3, 6].each do |start_index|
-      if current_board[start_index] == current_board[start_index + 1] && current_board[start_index + 1] == current_board[start_index + 2]
+      if current_board[start_index] == current_board[start_index + 1] &&
+         current_board[start_index + 1] == current_board[start_index + 2]
         winner[current_board[start_index]] = true
       end
     end
     [0, 1, 2].each do |start_index|
-      if current_board[start_index] == current_board[start_index + 3] && current_board[start_index + 3] == current_board[start_index + 6]
+      if current_board[start_index] == current_board[start_index + 3] &&
+         current_board[start_index + 3] == current_board[start_index + 6]
         winner[current_board[start_index]] = true
       end
     end
