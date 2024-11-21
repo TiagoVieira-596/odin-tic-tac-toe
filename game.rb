@@ -17,8 +17,10 @@ class Game
     @@board_layout
   end
 
-  def self.find_winner(board)
-    winner = Game.check_victory(board) unless @@plays < 3
-    winner
+  def self.winner(board)
+    if @@plays < 3
+      false
+    end
+    CheckVictory.find_winner(board)
   end
 end
